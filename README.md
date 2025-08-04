@@ -3,65 +3,63 @@
 **Privacy-first, open-source cloud IDE for code, AI, and the modern developer.**
 
 > *In Development –– August, 2025*
-
-
+<br>
 
 ## Real Developer Needs, Not Hype
 
-> The average developer spends only **52 minutes per day actually coding** (nearly 4.5 hours/week) in their editor. If you use agentic/AI features—like code refactoring, chat, or “fix this”—those requests add up quickly.
+> The average developer spends only **52 minutes per day actually coding** (nearly 4.5 hours/week) in the editor. When agentic/AI features—like code refactoring, chat, or “fix this”—are used, those requests add up quickly.
 
-Other platforms limit you to just **25–50** agentic prompts a month on free plans—a fraction of what a real developer needs to work productively.
+Many platforms limit users to just **25–50** agentic prompts a month on free plans—a fraction of what is required for productive development.
 
-**Lyra’s “bring your own key” approach means most users can easily handle over 100+ prompts per DAY (with longer context, e.g. 700 lines of code selected), all on generous free AI quotas. Yes, you read that right. Per DAY.** No more “usage anxiety” or “hit the wall” moments.
+**Lyra’s “bring your own key” approach enables most users to easily handle over 100+ prompts per DAY (with longer contexts, e.g. 700 lines of code selected), all on generous free AI quotas. Yes, that's per DAY.** No more “usage anxiety” or “hit the wall” moments.
 
+<br>
 
 ## Why Lyra?
 
-Agentic code browsers and AI-powered IDEs are revolutionizing programming—but they often come with tradeoffs:
+Agentic code browsers and AI-powered IDEs are revolutionizing programming—but frequent tradeoffs remain:
 
 - **High prices \& tight quotas:**
-    - Tools like **Cursor**, **Windsurf**, **Augment**, and others often charge \$15+ to \$30/month for Pro features, and their free plans are heavily limited:
-        - **Cursor:** Free tier gives you just 2,000 completions and 50 premium agent requests per month (after which you have to pay).
-        - **Windsurf:** Free plan offers 25 prompt credits per month, with Pro plans starting at \$15/month.
-        - **GitHub Copilot (free tier):** Recently improved to 2,000 code completions and 50 chat requests/month in VS Code. Once you exceed this, it’s paywalled.
-        - **Augment:** 50 free agent actions per month; then \$30/month for Developer tier.
+    - Tools like **Cursor**, **Windsurf**, **Augment**, and others often charge \$15+ to \$30/month for Pro features, while their free plans are heavily limited:
+        - **Cursor:** Free tier allows just 2,000 completions and 50 premium agent requests per month.
+        - **Windsurf:** Free plan provides 25 prompt credits per month, with Pro plans starting at \$15/month.
+        - **GitHub Copilot (free tier):** Offers 2,000 code completions and 50 chat requests/month in VS Code before reaching the paywall.
+        - **Augment:** 50 free agent actions per month, then \$30/month for Developer tier.
 - **Limited “free” usage:**
-Most platforms quickly push you to a paid plan—often after just a few dozen to a couple hundred prompts!
+Most platforms quickly direct users to a paid plan—sometimes after only a few dozen to a couple hundred prompts.
 - **Privacy concerns:**
-Many solutions are proprietary and closed-source, and your code/usage data may be collected to improve their AI models.
+A majority of solutions are proprietary and closed-source, with user code or usage data potentially collected to improve AI models.
 - **Opaque data policies:**
-It’s hard to know when your project code will be sent to a third party for model training or analytics.
+It is often unclear when project code may be sent to a third party for model training or analytics.
+
+<br>
 
 ## The Lyra Difference
 
-**Open-source and built for you:**
+**Open-source and built for the wider developer community:**
 
 - **Free, forever and open-source:**
-All core features are available without credit card or subscription.
-- **No limits on your AI usage:**
-Bring your own API key for Cloudflare Workers AI—use your free allotment, upgrade only if you want, and have total transparency and control.
+Core features are available without credit card or subscription requirements.
+- **No limits on AI usage:**
+Bring Your Own API key for Cloudflare Workers AI—use personal free allotments, upgrade if desired, and maintain full transparency and control.
 - **No vendor lock-in:**
-Your code always lives in your own GitHub repositories; Lyra never stores or processes your project code on our servers.
+Project code always resides in personal GitHub repositories; Lyra never stores or processes project code on external servers.
 - **Real privacy:**
-Your AI keys and code never touch our backend—ever.
+AI keys and code remain on the client side, never reaching the backend.
 - **Modern IDE features:**
     - Monaco Editor, xterm.js terminal, live web preview, GitHub syncing, and more.
 
+<br>
 
 ## Crystal-Clear Data Use
 
-- **Open development:** Everything—including security controls—is in the open.
-- **Your code, your rules:** No black box AI training on your private code, ever.
-- **Agentic AI, without the data grab:** We never see your prompts or API keys.
+- **Open development:**
+Everything—including security controls—is developed in public view.
+- **User’s code, user’s rules:**
+No black box AI training on private code.
+- **Agentic AI, without the data grab:**
+Prompts and API keys are never seen by Lyra’s infrastructure.
 
-
-## Key Features
-
-- 🚀 Monaco code editor with file explorer
-- 🔒 BYO API key for Cloudflare Workers AI (all calls client-side)
-- 🖥️ xterm.js-powered terminal fully linked to your code files
-- 🌐 Web preview—see live output of HTML/CSS/JS instantly
-- 🔄 Code always stored/synced with your GitHub repo (never our servers)
-- 🔍 Licensed MIT—use, modify, deploy, and learn freely
+<br>
 
 > *Inspired by the open-source revolution—built for the coder, not the business model.*
