@@ -5,6 +5,8 @@
 > *In Development –– August, 2025*
 <br>
 
+![lyra-hero](https://github.com/user-attachments/assets/9a924862-da66-4044-ae5d-81005673e2c8)
+
 ## Real Developer Needs, Not Hype
 
 > The average developer spends only **52 minutes per day actually coding** (nearly 4.5 hours/week) in the editor. When agentic/AI features—like code refactoring, chat, or “fix this”—are used, those requests add up quickly.
