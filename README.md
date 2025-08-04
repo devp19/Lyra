@@ -2,6 +2,8 @@
 
 **Privacy-first, open-source cloud IDE for code, AI, and the modern developer.**
 
+> *In Development –– August, 2025*
+
 
 ## Real Developer Needs, Not Hype
 
