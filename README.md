@@ -5,6 +5,7 @@
 > *In Development –– August, 2025*
 
 
+
 ## Real Developer Needs, Not Hype
 
 > The average developer spends only **52 minutes per day actually coding** (nearly 4.5 hours/week) in their editor. If you use agentic/AI features—like code refactoring, chat, or “fix this”—those requests add up quickly.
