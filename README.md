@@ -5,7 +5,7 @@
 > *In Development –– August, 2025*
 <br>
 
-![lyra-hero](https://github.com/user-attachments/assets/9a924862-da66-4044-ae5d-81005673e2c8)
+[![lyra-hero](https://github.com/user-attachments/assets/9a924862-da66-4044-ae5d-81005673e2c8)](https://lyra-ide.vercel.app)
 
 ## Real Developer Needs, Not Hype
 
