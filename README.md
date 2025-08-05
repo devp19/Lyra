@@ -13,7 +13,7 @@
 
 Many platforms limit users to just **25–50** agentic prompts a month on free plans—a fraction of what is required for productive development.
 
-**Lyra’s “bring your own key” approach enables most users to easily handle over 100+ prompts per DAY (with longer contexts, e.g. 700 lines of code selected), all on generous free AI quotas. Yes, that's per DAY.** No more “usage anxiety” or “hit the wall” moments.
+Lyra’s “bring your own key” or what I like to call BYOAK (Bring your own API Key) approach enables most users to easily handle over 100+ prompts per DAY (with longer contexts, e.g. 700 lines of code selected), all on generous free AI quotas. Yes, that's per DAY. No more “usage anxiety” or “hit the wall” moments.
 
 <br>
 
