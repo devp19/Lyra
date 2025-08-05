@@ -22,11 +22,8 @@ Many platforms limit users to just **25–50** agentic prompts a month on free p
 Agentic code browsers and AI-powered IDEs are revolutionizing programming—but frequent tradeoffs remain:
 
 - **High prices \& tight quotas:**
-    - Tools like **Cursor**, **Windsurf**, **Augment**, and others often charge \$15+ to \$30/month for Pro features, while their free plans are heavily limited. Even GitHub Copilot only offers 50 chat requests/month! To put into perspective that's less than 2 request per day! Shocker.
+    - Tools like **Cursor**, **Windsurf**, **Augment**, and others often charge \$15+ to \$30/month for Pro features, while their free plans are heavily limited. Even GitHub Copilot only offers 50 chat requests/month! To put into perspective that's less than 2 requests per day!
       
 Most platforms quickly direct users to a paid plan—sometimes after only a few dozen to a couple hundred prompts. Now for students like myself, ChatGPT plans are a good alternative but switching between IDE and browser gets frustrating and copy pasting just isn't ideal.
 
 Lyra aims to solve all of these issues! 
-
-
-> *Inspired by the open-source revolution—built for the coder, not the business model.*
