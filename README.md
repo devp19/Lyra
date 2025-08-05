@@ -22,46 +22,11 @@ Many platforms limit users to just **25–50** agentic prompts a month on free p
 Agentic code browsers and AI-powered IDEs are revolutionizing programming—but frequent tradeoffs remain:
 
 - **High prices \& tight quotas:**
-    - Tools like **Cursor**, **Windsurf**, **Augment**, and others often charge \$15+ to \$30/month for Pro features, while their free plans are heavily limited:
-        - **Cursor:** Free tier allows just 2,000 completions and 50 premium agent requests per month.
-        - **Windsurf:** Free plan provides 25 prompt credits per month, with Pro plans starting at \$15/month.
-        - **GitHub Copilot (free tier):** Offers 2,000 code completions and 50 chat requests/month in VS Code before reaching the paywall.
-        - **Augment:** 50 free agent actions per month, then \$30/month for Developer tier.
-- **Limited “free” usage:**
-Most platforms quickly direct users to a paid plan—sometimes after only a few dozen to a couple hundred prompts.
-- **Privacy concerns:**
-A majority of solutions are proprietary and closed-source, with user code or usage data potentially collected to improve AI models.
-- **Opaque data policies:**
-It is often unclear when project code may be sent to a third party for model training or analytics.
+    - Tools like **Cursor**, **Windsurf**, **Augment**, and others often charge \$15+ to \$30/month for Pro features, while their free plans are heavily limited. Even GitHub Copilot only offers 50 chat requests/month! To put into perspective that's less than 2 request per day! Shocker.
+      
+Most platforms quickly direct users to a paid plan—sometimes after only a few dozen to a couple hundred prompts. Now for students like myself, ChatGPT plans are a good alternative but switching between IDE and browser gets frustrating and copy pasting just isn't ideal.
 
-<br>
+Lyra aims to solve all of these issues! 
 
-## The Lyra Difference
-
-**Open-source and built for the wider developer community:**
-
-- **Free, forever and open-source:**
-Core features are available without credit card or subscription requirements.
-- **No limits on AI usage:**
-Bring Your Own API key for Cloudflare Workers AI—use personal free allotments, upgrade if desired, and maintain full transparency and control.
-- **No vendor lock-in:**
-Project code always resides in personal GitHub repositories; Lyra never stores or processes project code on external servers.
-- **Real privacy:**
-AI keys and code remain on the client side, never reaching the backend.
-- **Modern IDE features:**
-    - Monaco Editor, xterm.js terminal, live web preview, GitHub syncing, and more.
-
-<br>
-
-## Crystal-Clear Data Use
-
-- **Open development:**
-Everything—including security controls—is developed in public view.
-- **User’s code, user’s rules:**
-No black box AI training on private code.
-- **Agentic AI, without the data grab:**
-Prompts and API keys are never seen by Lyra’s infrastructure.
-
-<br>
 
 > *Inspired by the open-source revolution—built for the coder, not the business model.*
