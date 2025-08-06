@@ -13,14 +13,14 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarRail,
+  SidebarMenuBadge,
 } from "@/components/ui/sidebar"
 
-// This is sample data.
+// sample data for now till i add github oauth for repo and codebse linking !! 
 const data = {
   changes: [
     {
@@ -64,7 +64,11 @@ const data = {
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+// ADD openFile and activeFile props
+export function AppSidebar({ openFile, activeFile, ...props }: {
+  openFile: (filePath: string) => void,
+  activeFile: string,
+} & React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <img src='lyra-transparent.png' height={62} width={62} className="ml-3"></img>
@@ -90,7 +94,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent>
             <SidebarMenu>
               {data.tree.map((item, index) => (
-                <Tree key={index} item={item} />
+                <Tree
+                  key={index}
+                  item={item}
+                  openFile={openFile}
+                  activeFile={activeFile}
+                />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -101,13 +110,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   )
 }
 
-function Tree({ item }: { item: string | any[] }) {
+function Tree({ item, openFile, activeFile, parentPath = "" }: {
+  item: string | any[],
+  openFile: (filePath: string) => void,
+  activeFile: string,
+  parentPath?: string,
+}) {
   const [name, ...items] = Array.isArray(item) ? item : [item]
+  const path = parentPath ? `${parentPath}/${name}` : name
 
   if (!items.length) {
     return (
       <SidebarMenuButton
-        isActive={name === "button.tsx"}
+        isActive={path === activeFile}
+        onClick={() => openFile(path)}
         className="data-[active=true]:bg-transparent"
       >
         <File />
@@ -132,7 +148,13 @@ function Tree({ item }: { item: string | any[] }) {
         <CollapsibleContent>
           <SidebarMenuSub>
             {items.map((subItem, index) => (
-              <Tree key={index} item={subItem} />
+              <Tree
+                key={index}
+                item={subItem}
+                openFile={openFile}
+                activeFile={activeFile}
+                parentPath={path}
+              />
             ))}
           </SidebarMenuSub>
         </CollapsibleContent>
