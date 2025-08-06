@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sidebar";
 import { MonacoEditorClient } from "@/components/MonacoEditorClient";
 import { IoIosClose } from "react-icons/io";
+import React from "react";
 
 const filesData: Record<string, string> = {
   "components/ui/button.tsx": `// Button component\nexport function Button() { return <button>Click</button>; }`,
@@ -58,22 +59,25 @@ export default function Page() {
             className="mr-2 data-[orientation=vertical]:h-4"
           />
           <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">components</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">ui</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>
-                  {activeFile ? activeFile.split("/").pop() : ""}
-                </BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+  <BreadcrumbList>
+    {activeFile &&
+      activeFile.split("/").map((segment, idx, arr) => (
+        <React.Fragment key={idx}>
+          <BreadcrumbItem className={idx === arr.length - 1 ? undefined : "hidden md:block"}>
+            {idx === arr.length - 1 ? (
+              <BreadcrumbPage>{segment}</BreadcrumbPage>
+            ) : (
+              <BreadcrumbLink href="#">{segment}</BreadcrumbLink>
+            )}
+          </BreadcrumbItem>
+          {idx < arr.length - 1 && (
+            <BreadcrumbSeparator className="hidden md:block" />
+          )}
+        </React.Fragment>
+      ))}
+  </BreadcrumbList>
+</Breadcrumb>
+
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3 h-full">
