@@ -17,7 +17,21 @@ import {
 } from "@/components/ui/sidebar";
 import { MonacoEditorClient } from "@/components/MonacoEditorClient";
 import { IoIosClose } from "react-icons/io";
+import { VscCloseAll } from "react-icons/vsc";
+
 import React from "react";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const filesData: Record<string, string> = {
   "components/ui/button.tsx": `// Button component\nexport function Button() { return <button>Click</button>; }`,
@@ -30,7 +44,9 @@ export default function Page() {
   const [openedFiles, setOpenedFiles] = useState<string[]>([
     "components/ui/button.tsx",
   ]);
-  const [activeFile, setActiveFile] = useState<string>("components/ui/button.tsx");
+  const [activeFile, setActiveFile] = useState<string>(
+    "components/ui/button.tsx"
+  );
 
   const openFile = (filePath: string) => {
     setOpenedFiles((files) =>
@@ -59,25 +75,28 @@ export default function Page() {
             className="mr-2 data-[orientation=vertical]:h-4"
           />
           <Breadcrumb>
-  <BreadcrumbList>
-    {activeFile &&
-      activeFile.split("/").map((segment, idx, arr) => (
-        <React.Fragment key={idx}>
-          <BreadcrumbItem className={idx === arr.length - 1 ? undefined : "hidden md:block"}>
-            {idx === arr.length - 1 ? (
-              <BreadcrumbPage>{segment}</BreadcrumbPage>
-            ) : (
-              <BreadcrumbLink href="#">{segment}</BreadcrumbLink>
-            )}
-          </BreadcrumbItem>
-          {idx < arr.length - 1 && (
-            <BreadcrumbSeparator className="hidden md:block" />
-          )}
-        </React.Fragment>
-      ))}
-  </BreadcrumbList>
-</Breadcrumb>
-
+            <BreadcrumbList>
+              {activeFile &&
+                activeFile.split("/").map((segment, idx, arr) => (
+                  <React.Fragment key={idx}>
+                    <BreadcrumbItem
+                      className={
+                        idx === arr.length - 1 ? undefined : "hidden md:block"
+                      }
+                    >
+                      {idx === arr.length - 1 ? (
+                        <BreadcrumbPage>{segment}</BreadcrumbPage>
+                      ) : (
+                        <BreadcrumbLink href="#">{segment}</BreadcrumbLink>
+                      )}
+                    </BreadcrumbItem>
+                    {idx < arr.length - 1 && (
+                      <BreadcrumbSeparator className="hidden md:block" />
+                    )}
+                  </React.Fragment>
+                ))}
+            </BreadcrumbList>
+          </Breadcrumb>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3 h-full">
@@ -88,15 +107,35 @@ export default function Page() {
             >
               {/* Tabs Row */}
               <div className="flex items-center h-10 overflow-x-auto gap-1 mb-2">
-                <div>
-                  <IoIosClose
-                    size={20}
-                    className="cursor-pointer text-zinc-500 hover:text-zinc-300"
-                    onClick={() => {
-                      setOpenedFiles([]);
-                      setActiveFile("");
-                    }} />
-                </div>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <VscCloseAll
+                      size={20}
+                      className="cursor-pointer text-zinc-500 hover:text-zinc-300"
+                    />
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Close all files?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to close all open files? This
+                        cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => {
+                          setOpenedFiles([]);
+                          setActiveFile("");
+                        }}
+                      >
+                        Confirm
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+
                 {openedFiles.map((file) => (
                   <div
                     key={file}
@@ -114,7 +153,7 @@ export default function Page() {
                   >
                     <span>{file.split("/").pop()}</span>
                     <button
-                      onClick={e => {
+                      onClick={(e) => {
                         e.stopPropagation();
                         closeFile(file);
                       }}
@@ -127,15 +166,21 @@ export default function Page() {
                 ))}
               </div>
 
-              <div className="flex-1 min-h-0 overflow-hidden" style={{ borderRadius: "10px", border: "1px solid #2a2a2a" }}>
+              <div
+                className="flex-1 min-h-0 overflow-hidden"
+                style={{ borderRadius: "10px", border: "1px solid #2a2a2a" }}
+              >
                 {activeFile && (
                   <MonacoEditorClient
                     value={filesData[activeFile] ?? ""}
                     language={
-                      activeFile.endsWith(".tsx") ? "typescript"
-                      : activeFile.endsWith(".jsx") ? "javascript"
-                      : activeFile.endsWith(".css") ? "css"
-                      : "plaintext"
+                      activeFile.endsWith(".tsx")
+                        ? "typescript"
+                        : activeFile.endsWith(".jsx")
+                        ? "javascript"
+                        : activeFile.endsWith(".css")
+                        ? "css"
+                        : "plaintext"
                     }
                     key={activeFile}
                   />
@@ -147,7 +192,7 @@ export default function Page() {
           </div>
         </div>
         {/* testing file open cllse will remove after*/}
-        <div className="flex gap-3 mt-2 text-xs text-zinc-500 px-4">
+        {/* <div className="flex gap-3 mt-2 text-xs text-zinc-500 px-4">
           <span>Quick open file:</span>
           <button
             className="underline hover:text-indigo-400"
@@ -167,7 +212,7 @@ export default function Page() {
           >
             App.css
           </button>
-        </div>
+        </div> */}
       </SidebarInset>
     </SidebarProvider>
   );
