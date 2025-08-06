@@ -88,6 +88,15 @@ export default function Page() {
             >
               {/* Tabs Row */}
               <div className="flex items-center h-10 overflow-x-auto gap-1 mb-2">
+                <div>
+                  <IoIosClose
+                    size={20}
+                    className="cursor-pointer text-zinc-500 hover:text-zinc-300"
+                    onClick={() => {
+                      setOpenedFiles([]);
+                      setActiveFile("");
+                    }} />
+                </div>
                 {openedFiles.map((file) => (
                   <div
                     key={file}
