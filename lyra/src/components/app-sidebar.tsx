@@ -11,7 +11,7 @@ import {
   SidebarMenuSub, SidebarRail, SidebarMenuBadge,
 } from "@/components/ui/sidebar";
 import {
-  DndContext, useDraggable, useDroppable, DragEndEvent,
+  DndContext, useDraggable, useDroppable, DragEndEvent, PointerSensor,
 } from "@dnd-kit/core";
 
 type TreeNode = string | [string, ...TreeNode[]]; // file is string, folder is [name, ...children]
@@ -283,7 +283,18 @@ export function AppSidebar({
                   />
                 </SidebarMenuButton>
               )}
-              <DndContext onDragEnd={handleDragEnd}>
+              <DndContext
+                sensors={[{
+                  sensor: PointerSensor,
+                  options: {
+                    activationConstraint: {
+                      delay: 100, // Require 200ms hold before dragging
+                      tolerance: 5, // Allow 5px movement before dragging
+                    },
+                  },
+                }]}
+                onDragEnd={handleDragEnd}
+              >
                 {tree.map((item, idx) => (
                   <Tree
                     key={idx}
@@ -293,7 +304,6 @@ export function AppSidebar({
                     parentPath=""
                   />
                 ))}
-                {/* Allow dropping at root */}
                 <RootDropOverlay />
               </DndContext>
             </SidebarMenu>
@@ -333,41 +343,40 @@ function Tree({
   const { setNodeRef: setDropRef, isOver } = useDroppable({ id: path });
 
   if (isFile) {
-  return (
-    <div
-      ref={setDropRef} // Only droppable, not draggable
-      style={{
-        background: isOver ? "#dbeafe" : undefined,
-      }}
-    >
-      <SidebarMenuButton
-        isActive={path === activeFile}
-        onClick={() => openFile(path)}
-        className="data-[active=true]:bg-transparent flex items-center"
+    return (
+      <div
+        ref={setDropRef}
+        style={{
+          background: isOver ? "#363636ff" : undefined,
+                  borderRadius: '10px'
+
+        }}
       >
-        <div
-          ref={setDragRef} // Draggable handle
-          {...listeners} {...attributes}
+        <SidebarMenuButton
+          ref={setDragRef}
+          {...listeners}
+          {...attributes}
+          isActive={path === activeFile}
+          onClick={() => openFile(path)}
+          className="data-[active=true]:bg-transparent flex items-center"
           style={{
             opacity: isDragging ? 0.3 : 1,
-            cursor: "grab",
-            padding: "0 4px",
+            cursor: isDragging ? "grabbing" : "pointer",
           }}
         >
           <File size={16} />
-        </div>
-        {name}
-      </SidebarMenuButton>
-    </div>
-  );
-}
+          {name}
+        </SidebarMenuButton>
+      </div>
+    );
+  }
 
   return (
     <div
-      ref={node => { setDragRef(node); setDropRef(node); }}
+      ref={setDropRef}
       style={{
-        opacity: isDragging ? 0.3 : 1,
-        background: isOver ? "#dbeafe" : undefined,
+        background: isOver ? "#363636ff" : undefined,
+        borderRadius: '10px'
       }}
     >
       <SidebarMenuItem>
@@ -376,7 +385,15 @@ function Tree({
           defaultOpen={name === "components" || name === "ui"}
         >
           <CollapsibleTrigger asChild>
-            <SidebarMenuButton>
+            <SidebarMenuButton
+              ref={setDragRef}
+              {...listeners}
+              {...attributes}
+              style={{
+                opacity: isDragging ? 0.3 : 1,
+                cursor: isDragging ? "grabbing" : "pointer",
+              }}
+            >
               <ChevronRight className="transition-transform" />
               <Folder />
               {name}
