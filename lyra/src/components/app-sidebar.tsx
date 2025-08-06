@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronRight, File, Folder, Plus } from "lucide-react";
+import { ChevronRight, File, Folder, Plus, FolderPlus } from "lucide-react";
 
 import {
   Collapsible,
@@ -63,24 +63,34 @@ export function AppSidebar({
   openFile: (filePath: string) => void;
   activeFile: string;
 } & React.ComponentProps<typeof Sidebar>) {
-  // Make sidebar tree stateful to allow dynamic file creation
+  // Make sidebar tree stateful to allow dynamic file and folder creation
   const [tree, setTree] = React.useState(initialData.tree);
-  const [isCreating, setIsCreating] = React.useState(false);
+  const [isCreatingFile, setIsCreatingFile] = React.useState(false);
   const [newFileName, setNewFileName] = React.useState("");
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const [isCreatingFolder, setIsCreatingFolder] = React.useState(false);
+  const [newFolderName, setNewFolderName] = React.useState("");
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const folderInputRef = React.useRef<HTMLInputElement>(null);
 
-  // Focus input after showing it
+  // Focus input after showing it for file
   React.useEffect(() => {
-    if (isCreating && inputRef.current) {
-      inputRef.current.focus();
+    if (isCreatingFile && fileInputRef.current) {
+      fileInputRef.current.focus();
     }
-  }, [isCreating]);
+  }, [isCreatingFile]);
+
+  // Focus input after showing it for folder
+  React.useEffect(() => {
+    if (isCreatingFolder && folderInputRef.current) {
+      folderInputRef.current.focus();
+    }
+  }, [isCreatingFolder]);
 
   // Function to insert a file into the root of the file tree
   const handleCreateFile = () => {
     const name = newFileName.trim();
     if (!name) {
-      setIsCreating(false);
+      setIsCreatingFile(false);
       setNewFileName("");
       return;
     }
@@ -91,14 +101,39 @@ export function AppSidebar({
           : Array.isArray(item) && item[0] === name
       )
     ) {
-      setIsCreating(false);
+      setIsCreatingFile(false);
       setNewFileName("");
       return;
     }
     setTree((prev) => [...prev, name]);
-    setIsCreating(false);
+    setIsCreatingFile(false);
     setNewFileName("");
     openFile(name); // Immediately open file after creation (optional)
+  };
+
+  // Function to insert a folder into the root of the file tree
+  const handleCreateFolder = () => {
+    const name = newFolderName.trim();
+    if (!name) {
+      setIsCreatingFolder(false);
+      setNewFolderName("");
+      return;
+    }
+    if (
+      tree.some((item) =>
+        typeof item === "string"
+          ? item === name
+          : Array.isArray(item) && item[0] === name
+      )
+    ) {
+      setIsCreatingFolder(false);
+      setNewFolderName("");
+      return;
+    }
+    setTree((prev) => [...prev, [name]]);
+    setIsCreatingFolder(false);
+    setNewFolderName("");
+    // Optionally, you could expand the new folder or navigate to it
   };
 
   return (
@@ -130,36 +165,69 @@ export function AppSidebar({
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center justify-between">
             <span>Files</span>
-            <button
-              type="button"
-              onClick={() => setIsCreating(true)}
-              className="ml-2 rounded p-1 hover:bg-muted transition-colors"
-              aria-label="Create New File"
-              tabIndex={0}
-            >
-              <Plus size={16} />
-            </button>
+            <div className="flex items-center">
+              <button
+                type="button"
+                onClick={() => setIsCreatingFile(true)}
+                className="mr-2 rounded p-1 hover:bg-muted transition-colors"
+                aria-label="Create New File"
+                tabIndex={0}
+              >
+                <Plus size={16} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsCreatingFolder(true)}
+                className="rounded p-1 hover:bg-muted transition-colors"
+                aria-label="Create New Folder"
+                tabIndex={0}
+              >
+                <FolderPlus size={16} />
+              </button>
+            </div>
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {/* New File Input, inline, root only */}
-              {isCreating && (
+              {isCreatingFile && (
                 <SidebarMenuButton className="flex gap-2">
                   <File />
                   <input
-                    ref={inputRef}
+                    ref={fileInputRef}
                     value={newFileName}
                     onChange={(e) => setNewFileName(e.target.value)}
                     onBlur={handleCreateFile}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") handleCreateFile();
                       if (e.key === "Escape") {
-                        setIsCreating(false);
+                        setIsCreatingFile(false);
                         setNewFileName("");
                       }
                     }}
                     className="bg-transparent border-b border-muted outline-none text-inherit px-1"
                     placeholder="e.g. newfile.ts"
+                    style={{ minWidth: "120px" }}
+                  />
+                </SidebarMenuButton>
+              )}
+              {/* New Folder Input, inline, root only */}
+              {isCreatingFolder && (
+                <SidebarMenuButton className="flex gap-2">
+                  <Folder />
+                  <input
+                    ref={folderInputRef}
+                    value={newFolderName}
+                    onChange={(e) => setNewFolderName(e.target.value)}
+                    onBlur={handleCreateFolder}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") handleCreateFolder();
+                      if (e.key === "Escape") {
+                        setIsCreatingFolder(false);
+                        setNewFolderName("");
+                      }
+                    }}
+                    className="bg-transparent border-b border-muted outline-none text-inherit px-1"
+                    placeholder="e.g. newfolder"
                     style={{ minWidth: "120px" }}
                   />
                 </SidebarMenuButton>
@@ -194,10 +262,11 @@ function Tree({
   activeFile: string;
   parentPath?: string;
 }) {
+  const isFile = typeof item === "string";
   const [name, ...items] = Array.isArray(item) ? item : [item];
   const path = parentPath ? `${parentPath}/${name}` : name;
 
-  if (!items.length) {
+  if (isFile) {
     return (
       <SidebarMenuButton
         isActive={path === activeFile}
