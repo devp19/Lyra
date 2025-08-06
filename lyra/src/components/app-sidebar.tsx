@@ -333,27 +333,34 @@ function Tree({
   const { setNodeRef: setDropRef, isOver } = useDroppable({ id: path });
 
   if (isFile) {
-    return (
-      <div
-        ref={node => { setDragRef(node); setDropRef(node); }}
-        {...listeners} {...attributes}
-        style={{
-          opacity: isDragging ? 0.3 : 1,
-          background: isOver ? "#dbeafe" : undefined,
-          cursor: "pointer",
-        }}
+  return (
+    <div
+      ref={setDropRef} // Only droppable, not draggable
+      style={{
+        background: isOver ? "#dbeafe" : undefined,
+      }}
+    >
+      <SidebarMenuButton
+        isActive={path === activeFile}
+        onClick={() => openFile(path)}
+        className="data-[active=true]:bg-transparent flex items-center"
       >
-        <SidebarMenuButton
-          isActive={path === activeFile}
-          onClick={() => openFile(path)}
-          className="data-[active=true]:bg-transparent"
-
+        <div
+          ref={setDragRef} // Draggable handle
+          {...listeners} {...attributes}
+          style={{
+            opacity: isDragging ? 0.3 : 1,
+            cursor: "grab",
+            padding: "0 4px",
+          }}
         >
-          <File />{name}
-        </SidebarMenuButton>
-      </div>
-    );
-  }
+          <File size={16} />
+        </div>
+        {name}
+      </SidebarMenuButton>
+    </div>
+  );
+}
 
   return (
     <div
