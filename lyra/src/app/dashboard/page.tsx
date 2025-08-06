@@ -16,6 +16,8 @@ import {
 
 export default function Page() {
   return (
+    <>
+    
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
@@ -24,6 +26,7 @@ export default function Page() {
           <Separator
             orientation="vertical"
             className="mr-2 data-[orientation=vertical]:h-4"
+        
           />
           <Breadcrumb>
             <BreadcrumbList>
@@ -51,5 +54,6 @@ export default function Page() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+    </>
   )
 }
