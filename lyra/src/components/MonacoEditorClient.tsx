@@ -3,7 +3,6 @@
 import Editor from "@monaco-editor/react";
 import type * as monacoType from "monaco-editor";
 
-
 export function MonacoEditorClient({
   value = "",
   language = "typescript",
@@ -19,7 +18,7 @@ export function MonacoEditorClient({
       inherit: true,
       rules: [],
       colors: {
-        "editor.background": "#171717", 
+        "editor.background": "#151518",
         "editor.foreground": "#ffffff",
       },
     });
@@ -29,17 +28,16 @@ export function MonacoEditorClient({
     <Editor
       height="100%"
       defaultLanguage={language}
-      theme="custom-theme" 
+      theme="custom-theme"
       defaultValue={value}
       onChange={onChange}
       beforeMount={handleBeforeMount}
       options={{
         fontSize: 12,
         fontFamily: "Inter, monospace",
-        minimap: { enabled: true },
+        minimap: { enabled: false },
         padding: {
           top: 20,
-          bottom: 10,
         },
       }}
     />

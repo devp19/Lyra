@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
@@ -18,9 +18,7 @@ import {
 import { MonacoEditorClient } from "@/components/MonacoEditorClient";
 import { IoIosClose } from "react-icons/io";
 import { VscCloseAll } from "react-icons/vsc";
-
-import React from "react";
-
+import { TerminalClient } from "@/components/TerminalClient";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -98,121 +96,110 @@ export default function Page() {
             </BreadcrumbList>
           </Breadcrumb>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3 h-full">
-            {/* Editor/tabs area */}
-            <div
-              className="col-span-2 min-h-[60vh] md:min-h-[calc(100vh-6rem)] flex flex-col"
-              style={{ borderRadius: "10px" }}
-            >
-              {/* Tabs Row */}
-              <div className="flex items-center h-10 overflow-x-auto gap-1 mb-2">
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <VscCloseAll
-                      size={20}
-                      className="cursor-pointer text-zinc-500 hover:text-zinc-300"
-                    />
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Close all files?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Are you sure you want to close all open files? This
-                        cannot be undone.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={() => {
-                          setOpenedFiles([]);
-                          setActiveFile("");
-                        }}
-                      >
-                        Confirm
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-
-                {openedFiles.map((file) => (
-                  <div
-                    key={file}
-                    onClick={() => setActiveFile(file)}
-                    className={`flex items-center px-3 py-2 cursor-pointer rounded-sm text-sm
-                      ${
-                        file === activeFile
-                          ? "bg-zinc-900 text-white"
-                          : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
-                      }
-                    `}
-                    style={{
-                      fontWeight: file === activeFile ? 400 : 400,
-                    }}
-                  >
-                    <span>{file.split("/").pop()}</span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        closeFile(file);
-                      }}
-                      className="ml-2 px-1.5 text-white-500 hover:text-white"
-                      aria-label="Close file"
-                    >
-                      <IoIosClose size={16} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              <div
-                className="flex-1 min-h-0 overflow-hidden"
-                style={{ borderRadius: "10px", border: "1px solid #2a2a2a" }}
-              >
-                {activeFile && (
-                  <MonacoEditorClient
-                    value={filesData[activeFile] ?? ""}
-                    language={
-                      activeFile.endsWith(".tsx")
-                        ? "typescript"
-                        : activeFile.endsWith(".jsx")
-                        ? "javascript"
-                        : activeFile.endsWith(".css")
-                        ? "css"
-                        : "plaintext"
-                    }
-                    key={activeFile}
+        <div className="flex flex-1 flex-col gap-4 p-4 ">
+          {/* Main area: Monaco + Tabs + Terminal below */}
+          <div className="col-span-2 min-h-[60vh] md:min-h-[calc(100vh-6rem)] flex flex-col mr-3">
+            {/* Tabs Row */}
+            <div className="flex items-center h-10 overflow-x-auto gap-1 mb-2">
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <VscCloseAll
+                    size={20}
+                    className="cursor-pointer text-zinc-500 hover:text-zinc-300"
                   />
-                )}
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Close all files?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to close all open files? This cannot
+                      be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => {
+                        setOpenedFiles([]);
+                        setActiveFile("");
+                      }}
+                    >
+                      Confirm
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+              {openedFiles.map((file) => (
+                <div
+                  key={file}
+                  onClick={() => setActiveFile(file)}
+                  className={`flex items-center px-3 py-2 cursor-pointer rounded-sm text-sm
+                    ${
+                      file === activeFile
+                        ? "bg-zinc-900 text-white"
+                        : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
+                    }
+                  `}
+                  style={{
+                    fontWeight: 400,
+                  }}
+                >
+                  <span>{file.split("/").pop()}</span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeFile(file);
+                    }}
+                    className="ml-2 px-1.5 text-white-500 hover:text-white"
+                    aria-label="Close file"
+                  >
+                    <IoIosClose size={16} />
+                  </button>
+                </div>
+              ))}
+            </div>
+            {/* Monaco Editor fills available vertical space */}
+            <div
+              className="flex-1 min-h-0 overflow-hidden"
+              style={{
+                borderRadius: "10px",
+                border: "1px solid #2a2a2a",
+                borderBottom: "none",
+              }}
+            >
+              {activeFile && (
+                <MonacoEditorClient
+                  value={filesData[activeFile] ?? ""}
+                  language={
+                    activeFile.endsWith(".tsx")
+                      ? "typescript"
+                      : activeFile.endsWith(".jsx")
+                      ? "javascript"
+                      : activeFile.endsWith(".css")
+                      ? "css"
+                      : "plaintext"
+                  }
+                  key={activeFile}
+                />
+              )}
+            </div>
+            {/* Terminal Panel at bottom */}
+            <div
+              className="h-40 min-h-[8rem] max-h-[40vh] border-zinc-800 bg-[#151518] mt-5"
+              style={{
+                borderRadius: "10px",
+                overflow: "hidden",
+              }}
+            >
+              <div className="h-8 flex items-center px-4 text-xs text-zinc-400 border-b border-zinc-800 font-mono">
+                Lyra Terminal
+              </div>
+              <div className="h-full" style={{ height: "calc(100% - 2rem)" }}>
+                <TerminalClient />
               </div>
             </div>
-            {/* KEEP THIS SIDE BLANK FOR NOW AI CHAT I WILL INTEGRATE HERE AS A NEW VERT COL!!*/}
-            <div />
           </div>
         </div>
-        {/* testing file open cllse will remove after*/}
-        {/* <div className="flex gap-3 mt-2 text-xs text-zinc-500 px-4">
-          <span>Quick open file:</span>
-          <button
-            className="underline hover:text-indigo-400"
-            onClick={() => openFile("components/ui/card.tsx")}
-          >
-            card.tsx
-          </button>
-          <button
-            className="underline hover:text-indigo-400"
-            onClick={() => openFile("App.jsx")}
-          >
-            App.jsx
-          </button>
-          <button
-            className="underline hover:text-indigo-400"
-            onClick={() => openFile("App.css")}
-          >
-            App.css
-          </button>
-        </div> */}
       </SidebarInset>
     </SidebarProvider>
   );
