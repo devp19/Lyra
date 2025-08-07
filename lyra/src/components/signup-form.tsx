@@ -1,17 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -28,6 +28,11 @@ export function SignUpForm({
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          full_name: name,
+        },
+      },
     });
 
     if (error) {
@@ -41,7 +46,7 @@ export function SignUpForm({
   // Inputs and buttons are locked if success is true
   const lockInputs = success;
 
-    useEffect(() => {
+  useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
         router.push("/login");
@@ -50,10 +55,12 @@ export function SignUpForm({
     }
   }, [success, router]);
 
-
   return (
-    
-    <form onSubmit={handleSignUp} className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      onSubmit={handleSignUp}
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Create an account</h1>
         <p className="text-muted-foreground text-sm text-balance">
@@ -61,6 +68,20 @@ export function SignUpForm({
         </p>
       </div>
       <div className="grid gap-6">
+        {/* FULL NAME FIELD */}
+        <div className="grid gap-3">
+          <Label htmlFor="full-name">Full Name</Label>
+          <Input
+            id="full-name"
+            type="text"
+            placeholder="Jane Doe"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            disabled={lockInputs}
+          />
+        </div>
+        {/* EMAIL FIELD */}
         <div className="grid gap-3">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -69,10 +90,11 @@ export function SignUpForm({
             placeholder="m@example.com"
             required
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             disabled={lockInputs}
           />
         </div>
+        {/* PASSWORD FIELD */}
         <div className="grid gap-3">
           <Label htmlFor="password">Password</Label>
           <Input
@@ -80,14 +102,17 @@ export function SignUpForm({
             type="password"
             required
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             disabled={lockInputs}
           />
         </div>
-        {error && <p className="text-white text-sm text-center">{error}</p>}
+        {error && (
+          <p className="text-white text-sm text-center">{error}</p>
+        )}
         {success && (
           <p className="text-white text-sm text-center">
-            You're good to go! <br></br>Please check your email for a confirmation link.
+            You're good to go! <br />
+            Please check your email for a confirmation link.
           </p>
         )}
         <Button
