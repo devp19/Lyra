@@ -28,6 +28,7 @@ export function LoginForm({
     });
 
     if (error) {
+      console.log(error.message);
       setError(error.message);
     } else if (data.session) {
       // Session is now active; you can store it in context if needed

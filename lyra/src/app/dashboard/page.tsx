@@ -1,15 +1,34 @@
-import { AppSidebar } from "@/components/dash-sidebar"
-import { SiteHeader } from "@/components/site-header"
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
+"use client";
 
-// export const iframeHeight = "800px"
+import { AppSidebar } from "@/components/dash-sidebar";
+import { SiteHeader } from "@/components/site-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { useUser } from "@/lib/useUser";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export const description = "A sidebar with a header and a search form."
+export const description = "A sidebar with a header and a search form.";
 
 export default function Page() {
+  const { user, loading } = useUser();
+const router = useRouter();
+
+useEffect(() => {
+  if (!loading && user === null) {
+    router.push("/login");
+  }
+}, [user, loading, router]);
+
+if (loading) {
+  return (
+    <div className="flex h-screen w-full items-center justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-gray-300 border-t-primary" />
+    </div>
+  );
+}
+
+
+
   return (
     <div className="[--header-height:calc(--spacing(14))]">
       <SidebarProvider className="flex flex-col">
@@ -29,5 +48,5 @@ export default function Page() {
         </div>
       </SidebarProvider>
     </div>
-  )
+  );
 }

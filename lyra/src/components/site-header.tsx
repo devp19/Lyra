@@ -30,7 +30,7 @@ export function SiteHeader() {
           <SidebarIcon />
         </Button> */}
         <img src='./lyra-transparent.png' height={64} width={64} style={{margin: '10px'}}></img>
-        <Separator orientation="vertical" className="mr-2 h-4" />
+        {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
         <Breadcrumb className="hidden sm:block">
           <BreadcrumbList>
             <BreadcrumbItem>
