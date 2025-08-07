@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 
+
 export default function Home() {
   return (
     <div className="relative min-h-screen bg-black text-white font-sans overflow-hidden">
@@ -43,7 +44,9 @@ export default function Home() {
         <p className="mb-6 text-sm max-w-sm opacity-80">
           Open-source, private, powerful. The new way to code in the cloud without compromising your data.
         </p>
-        <Button>Join Waitlist</Button>
+        <a href="/waitlist">
+        <Button className="hover:cursor-pointer">Join Waitlist</Button>
+        </a>
       </div>
 
     </div>
