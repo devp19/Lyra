@@ -7,8 +7,6 @@ import { useUser } from "@/lib/useUser";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export const description = "A sidebar with a header and a search form.";
-
 export default function Page() {
   const { user, loading } = useUser();
 const router = useRouter();
