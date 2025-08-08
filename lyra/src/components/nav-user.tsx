@@ -1,24 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles
+  BadgeCheck,
+  Bell,
+  ChevronsUpDown,
+  CreditCard,
+  LogOut,
+  Sparkles,
 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Avatar, AvatarFallback, AvatarImage
-} from "@/components/ui/avatar";
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
-  DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 export function NavUser({
-  user
+  user,
 }: {
   user: {
     name: string;
@@ -33,6 +44,15 @@ export function NavUser({
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmingLogout, setConfirmingLogout] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
+
+  const handleLinkGitHub = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
 
   // This is KEY: Use onSelect on DropdownMenuItem + preventDefault!
   const handleLogoutClick = async (e: Event) => {
@@ -62,6 +82,20 @@ export function NavUser({
     }
   };
 
+  const [isGitHubLinked, setIsGitHubLinked] = useState(false);
+
+  useEffect(() => {
+    async function checkGitHubLinked() {
+      const { data, error } = await supabase.auth.getUser();
+      if (data?.user?.identities?.some((i) => i.provider === "github")) {
+        setIsGitHubLinked(true);
+      } else {
+        setIsGitHubLinked(false);
+      }
+    }
+    checkGitHubLinked();
+  }, []);
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -78,7 +112,9 @@ export function NavUser({
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs text-gray-400">{user.email}</span>
+                <span className="truncate text-xs text-gray-400">
+                  {user.email}
+                </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -110,10 +146,20 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
+             <DropdownMenuGroup>
+      {isGitHubLinked ? (
+        <DropdownMenuItem disabled>
+          <BadgeCheck />
+          GitHub Linked
+        </DropdownMenuItem>
+      ) : (
+        <DropdownMenuItem onSelect={handleLinkGitHub}>
+          <BadgeCheck />
+          Link GitHub
+        </DropdownMenuItem>
+      )}
+    </DropdownMenuGroup>
+
               <DropdownMenuItem>
                 <CreditCard />
                 Billing
@@ -136,27 +182,33 @@ export function NavUser({
                 {/* 1. Normal "Log out" */}
                 <span
                   className={`absolute left-0 right-0 top-0 transition-all duration-200
-                  ${!confirmingLogout && !loggingOut
+                  ${
+                    !confirmingLogout && !loggingOut
                       ? "translate-y-1 opacity-100"
-                      : "-translate-y-5 opacity-0"}`}
+                      : "-translate-y-5 opacity-0"
+                  }`}
                 >
                   Log out
                 </span>
                 {/* 2. Confirm logout */}
                 <span
                   className={`absolute left-0 right-0 top-0 transition-all duration-200
-                  ${confirmingLogout && !loggingOut
+                  ${
+                    confirmingLogout && !loggingOut
                       ? "translate-y-1 opacity-100"
-                      : "translate-y-5 opacity-0"}`}
+                      : "translate-y-5 opacity-0"
+                  }`}
                 >
                   Confirm logout?
                 </span>
                 {/* 3. Logging out/animation */}
                 <span
                   className={`absolute left-0 right-0 top-0 transition-all duration-200
-                  ${loggingOut
+                  ${
+                    loggingOut
                       ? "translate-y-1 opacity-100"
-                      : "translate-y-5 opacity-0"}`}
+                      : "translate-y-5 opacity-0"
+                  }`}
                 >
                   Logging out...
                 </span>
