@@ -6,7 +6,8 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useUser } from "@/lib/useUser";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
+import RepositoryTable from "@/components/repo-table";
+ 
 export default function Page() {
   const { user, loading } = useUser();
 const router = useRouter();
@@ -40,7 +41,9 @@ if (loading) {
                 <div className="bg-muted/50 aspect-video rounded-xl" />
                 <div className="bg-muted/50 aspect-video rounded-xl" />
               </div>
-              <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
+              {/* <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" /> */}
+              <RepositoryTable />
+
             </div>
           </SidebarInset>
         </div>
