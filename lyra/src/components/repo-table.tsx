@@ -51,7 +51,7 @@ const allColumns = [
   { key: "name", label: "Name" }, // Always visible
   { key: "visibility", label: "Visibility" },
   { key: "lastCommit", label: "Last Commit" },
-  { key: "size", label: "Size (KB/MB)" },
+  { key: "size", label: "Size" },
   { key: "url", label: "Repository URL" },
 ];
 
